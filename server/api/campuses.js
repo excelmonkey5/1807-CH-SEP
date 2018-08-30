@@ -1,6 +1,6 @@
 
 const router = require('express').Router()
-const {Campuses} = require('../db')
+const {Campuses, Students} = require('../db')
 
 router.get('/', (req, res, next) => {
   Campuses.findAll()
@@ -13,5 +13,37 @@ router.get('/', (req, res, next) => {
     console.log('campus find all')
     res.json(campusList)
   }).catch(next)})
+
+
+  router.get('/:id', (req, res, next) => {
+    Campuses.findById(req.params.id)
+    .then(campus => {
+      if (!campus) {
+        const error = Error('not found')
+        err.status = 404
+        throw err
+      }
+      console.log('student find one')
+      res.json(campus)
+    }).catch(next)})
+
+
+
+    router.get('/studentsenrolled/:id', (req, res, next) => {
+      Students.findAll( {
+        where: {
+          campusId: req.params.id
+        }
+        })
+      .then(studentsenrolled => {
+        if (!studentsenrolled) {
+          const error = Error('not found')
+          err.status = 404
+          throw err
+        }
+        console.log('student enrolled')
+        res.json(studentsenrolled)
+      }).catch(next)})
+
 
 module.exports = router

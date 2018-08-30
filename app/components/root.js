@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Campuses from './campuses'
 import Students from './students'
+import SingleCampus from './singleCampus'
+import SingleStudent from './singleStudent'
 import { Route, Switch, Redirect, withRouter, NavLink } from 'react-router-dom';
 
 
@@ -17,8 +19,12 @@ const Root = () => {
 
       <main>
         <h1>Welcome to the Margaret Hamilton Academy of JavaScript!</h1>
-        <Route path="/students" component={Students} />
-        <Route path="/campuses" component={Campuses} />
+        <Route exact path="/students" component={Students} />
+        <Route exact path="/campuses" component={Campuses} />
+
+        <Route path="/campuses/:id" component={SingleCampus} />
+        <Route path="/students/:id" component={SingleStudent} />
+
       </main>
     </div>
   )

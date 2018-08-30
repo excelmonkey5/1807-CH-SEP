@@ -12,6 +12,7 @@ import thunk from 'redux-thunk'
 //action types
 const GET_CAMPUSES = 'GET_CAMPUSES'
 const GET_STUDENTS = 'GET_STUDENTS'
+const GET_CAMPUS = 'GET_CAMPUS'
 
 //action creators
 export const getCampuses = campuses => ({
@@ -22,6 +23,11 @@ export const getCampuses = campuses => ({
 export const getStudents = students => ({
   type: GET_STUDENTS,
   students
+})
+
+export const getCampus = campus => ({
+  type: GET_CAMPUS,
+  campus
 })
 
 //thunks
@@ -43,6 +49,15 @@ export const fetchStudents = () => {
     dispatch(action)
   }
 }
+
+// export const fetchCampus = () => {
+//   return async (dispatch) => {
+//     const response = await axios.get('/api/students/:id')
+//   }
+// }
+
+
+
 // export const
 
 
