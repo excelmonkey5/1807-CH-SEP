@@ -30,6 +30,4 @@ const Students = db.define('students', {
   }
 });
 
-
-
 module.exports = Students

@@ -14,6 +14,15 @@ router.get('/', (req, res, next) => {
     res.json(campusList)
   }).catch(next)})
 
+  router.post('/', async (req, res, next) => {
+    try {
+      const campus = await Campuses.create(req.body);
+      res.json(campus)
+    } catch(err) {
+      next(err);
+    }
+  });
+
 
   router.get('/:id', (req, res, next) => {
     Campuses.findById(req.params.id)
@@ -27,9 +36,18 @@ router.get('/', (req, res, next) => {
       res.json(campus)
     }).catch(next)})
 
+  router.delete('/:id', async (req, res, next) => {
+    try {
+      const id = req.params.id
+      console.log("id", id)
+      await Campuses.destroy({where: {id} });
+      res.status(204).end();
+    } catch(err) {
+      next(err)
+    }
+  })
 
-
-    router.get('/studentsenrolled/:id', (req, res, next) => {
+  router.get('/studentsenrolled/:id', (req, res, next) => {
       Students.findAll( {
         where: {
           campusId: req.params.id
@@ -44,6 +62,7 @@ router.get('/', (req, res, next) => {
         console.log('student enrolled')
         res.json(studentsenrolled)
       }).catch(next)})
+
 
 
 module.exports = router

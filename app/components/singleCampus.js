@@ -1,12 +1,12 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { NavLink, withRouter} from 'react-router-dom'
+import { NavLink} from 'react-router-dom'
 import { fetchCampuses } from '../reducers/index'
 import store from '../store'
 import axios from 'axios';
 
 
-export class SingleCampus extends React.Component {
+export class SingleCampus extends Component {
   constructor() {
     super()
     this.state = {
@@ -50,6 +50,9 @@ export class SingleCampus extends React.Component {
             </div>
           )
         })}
+        <br />
+        <br />
+        <img src={campus.imageUrl} width="400px" height="400px" />
         </div>
 
     )

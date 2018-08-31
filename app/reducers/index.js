@@ -3,16 +3,14 @@
 
 import {combineReducers} from 'redux'
 import axios from 'axios'
-import thunk from 'redux-thunk'
-
-
 
 // const initialState = {}
 
 //action types
 const GET_CAMPUSES = 'GET_CAMPUSES'
 const GET_STUDENTS = 'GET_STUDENTS'
-const GET_CAMPUS = 'GET_CAMPUS'
+const REMOVE_CAMPUS = 'REMOVE_CAMPUS'
+const REMOVE_STUDENT = 'REMOVE_STUDENT'
 
 //action creators
 export const getCampuses = campuses => ({
@@ -25,9 +23,14 @@ export const getStudents = students => ({
   students
 })
 
-export const getCampus = campus => ({
-  type: GET_CAMPUS,
-  campus
+export const removeCampus = campusId => ({
+  type: REMOVE_CAMPUS,
+  campusId
+})
+
+export const removeStudent = studentId => ({
+  type: REMOVE_STUDENT,
+  studentId
 })
 
 //thunks
@@ -50,22 +53,46 @@ export const fetchStudents = () => {
   }
 }
 
-// export const fetchCampus = () => {
-//   return async (dispatch) => {
-//     const response = await axios.get('/api/students/:id')
-//   }
-// }
+export const postCampus = (stateChange) => {
+  return async (dispatch) => {
+    const response = await axios.post('/api/campuses', stateChange)
+    const newCampus = response.data
+    dispatch(getCampuses(newCampus))
+    history.push('/campuses')
+  }
+}
 
+export const postStudent = (stateChange) => {
+  return async(dispatch) => {
+    const response = await axios.post('/api/students', stateChange)
+    const newStudent = response.data
+    dispatch(getStudents(newStudent))
+    history.push('/students')
+  }
+}
 
+export const deleteCampus = (campusId) => {
+  return async (dispatch) => {
+    const response = await axios.delete('/api/campuses/' + campusId)
+    const deletedCampus = response.data
+    dispatch(removeCampus(deletedCampus))
+  }
+}
 
-// export const
-
-
+export const deleteStudent = (studentId) => {
+  return async (dispatch) => {
+    const response = await axios.delete('/api/students/' + studentId)
+    const deletedStudent = response.data
+    dispatch(removeStudent(deletedStudent))
+  }
+}
 
 const campusReducer = (state = [], action) => {
   switch (action.type) {
     case GET_CAMPUSES:
     return action.campuses
+    case REMOVE_CAMPUS:
+    return [...state].filter(campus => campus.id !== action.campusId)
     default:
     return state
   }
@@ -75,6 +102,8 @@ const studentReducer = (state = [], action) => {
   switch (action.type) {
     case GET_STUDENTS:
     return action.students
+    case REMOVE_STUDENT:
+    return [...state].filter(student => student.id !== action.studentId)
     default:
     return state
   }
@@ -84,12 +113,5 @@ const rootReducer = combineReducers({
   students: studentReducer,
   campuses: campusReducer
 })
-
-// const rootReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     default:
-//       return state
-//   }
-// }
 
 export default rootReducer;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { NavLink, withRouter} from 'react-router-dom'
 import { fetchCampuses } from '../reducers/index'
@@ -6,12 +6,12 @@ import store from '../store'
 import axios from 'axios';
 
 
-export class SingleStudent extends React.Component {
+export class SingleStudent extends Component {
   constructor() {
     super()
     this.state = {
       student: {},
-      campus: {name: "no campus exists"}
+      campus: {name: ''}
     }
   }
 
@@ -36,7 +36,10 @@ export class SingleStudent extends React.Component {
     return (
       <div>
         <h1> {student.firstName}  {student.lastName} </h1>
-        <h2> GPA: {student.gpa} at <NavLink to={`/campuses/${campus.id}`}>{campus.name}</NavLink></h2>
+        {(student.campusId === null) ? <h3>Looks like GPA is {student.gpa} but we can't figure out at which campus</h3> :  <h2> GPA: {student.gpa} at <NavLink to={`/campuses/${campus.id}`}>{campus.name}</NavLink></h2>}
+
+        <p> email: {student.email} </p>
+        <img src={student.imageUrl} width="300px" height="300px"/>
         </div>
     )
   }

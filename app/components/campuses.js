@@ -1,23 +1,26 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { NavLink, withRouter} from 'react-router-dom'
-import { fetchCampuses } from '../reducers/index'
-import store from '../store'
+import { NavLink } from 'react-router-dom'
+import { fetchCampuses, deleteCampus } from '../reducers/index'
 
 
-export class Campuses extends React.Component {
-
+export class Campuses extends Component {
 
   componentDidMount() {
+    this.props.fetchInitalCampuses()
+  }
+
+  componentDidUpdate() {
     this.props.fetchInitalCampuses()
   }
 
   render() {
     console.log('campuses rendered')
 
-    // const { campuses } = this.props;
-    const campuses = this.props.campuses;
+    const { campuses, deleteCampus } = this.props;
+    // const campuses = this.props.campuses;
     console.log('props ', this.props)
+
 
     return (
       <div>
@@ -28,10 +31,12 @@ export class Campuses extends React.Component {
             <NavLink to={`/campuses/${campus.id}`}>
             <p><span>Campus: {campus.name}</span></p>
             </NavLink>
-            </ul>
-            )
+            <img src={campus.imageUrl} height="100px" width="100px" />
+            <br />
+            <button type="button" onClick={ () => deleteCampus( `${campus.id}` )}>X Remove</button>
+            </ul>)
           })}
-        </div>
+      </div>
     )
   }
 }
@@ -44,7 +49,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInitalCampuses: () => dispatch(fetchCampuses())
+    fetchInitalCampuses: () => dispatch(fetchCampuses()),
+    deleteCampus: (campusId) => dispatch(deleteCampus(campusId))
 }
 }
 

@@ -1,20 +1,21 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { NavLink, withRouter} from 'react-router-dom'
-import { fetchStudents } from '../reducers/index'
-import store from '../store'
+import { NavLink } from 'react-router-dom'
+import { fetchStudents, deleteStudent } from '../reducers/index'
 
-
-export class Students extends React.Component {
-
+export class Students extends Component {
 
   componentDidMount() {
     this.props.fetchInitalStudents()
   }
 
+  componentDidUpdate() {
+    this.props.fetchInitalStudents()
+  }
+
   render() {
     console.log('students rendered')
-    const students = this.props.students;
+    const { students, deleteStudent } = this.props;
     console.log('props ', this.props)
 
     return (
@@ -26,10 +27,11 @@ export class Students extends React.Component {
             <NavLink to={`/students/${student.id}`}>
             <p><span>student: {student.firstName}  {student.lastName}</span></p>
             </NavLink>
+            <button type="button" onClick={ () => deleteStudent( `${student.id}` )}>X Remove</button>
             </ul>
             )
           })}
-        </div>
+      </div>
     )
   }
 }
@@ -42,7 +44,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInitalStudents: () => dispatch(fetchStudents())
+    fetchInitalStudents: () => dispatch(fetchStudents()),
+    deleteStudent: (studentId) => dispatch(deleteStudent(studentId))
 }
 }
 
