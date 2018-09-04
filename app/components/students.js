@@ -6,12 +6,27 @@ import { fetchStudents, deleteStudent } from '../reducers/index'
 export class Students extends Component {
 
   componentDidMount() {
-    this.props.fetchInitalStudents()
+    this.props.fetchInitialStudents()
   }
 
-  componentDidUpdate() {
-    this.props.fetchInitalStudents()
-  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // if (nextProps.students === this.props.students) {
+  //   //   return false
+  //   // } else {
+  //   //   this.props.fetchInitialStudents()
+  //   //   return true
+  //   // }
+  //   return true
+  // }
+
+  componentDidUpdate(prevProps, prevState) {
+    // const newStudents = this.props.match.params.students
+    // const oldStudents = prevProps.match.params.students
+    // if (newStudents !== oldStudents)
+
+      this.props.fetchInitialStudents()
+    }
 
   render() {
     console.log('students rendered')
@@ -44,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInitalStudents: () => dispatch(fetchStudents()),
+    fetchInitialStudents: () => dispatch(fetchStudents()),
     deleteStudent: (studentId) => dispatch(deleteStudent(studentId))
 }
 }

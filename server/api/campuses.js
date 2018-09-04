@@ -23,7 +23,6 @@ router.get('/', (req, res, next) => {
     }
   });
 
-
   router.get('/:id', (req, res, next) => {
     Campuses.findById(req.params.id)
     .then(campus => {
@@ -62,7 +61,6 @@ router.get('/', (req, res, next) => {
         console.log('student enrolled')
         res.json(studentsenrolled)
       }).catch(next)})
-
 
 
 module.exports = router
